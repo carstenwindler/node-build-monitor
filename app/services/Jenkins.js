@@ -45,7 +45,15 @@ module.exports = function () {
                   return;
                 }
 
-                callback(error, data.builds);
+                var builds = [];
+
+                if (self.configuration.latestBuildOnly) {
+                    builds = [data.builds.shift()];
+                } else {
+                    builds = data.builds;
+                }
+
+                callback(error, builds);
             });
         },
         requestBuild = function (build, callback) {
